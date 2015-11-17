@@ -21,4 +21,8 @@ setup(name='pyramid_nacl_session',
         'PyNaCl',
       ],
       test_suite='pyramid_nacl_session.tests',
+      entry_points = """\
+      [console_scripts]
+      print_secret = pyramid_nacl_session.scripts:print_secret
+      """
 )
