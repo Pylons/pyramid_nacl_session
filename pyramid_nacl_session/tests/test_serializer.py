@@ -59,21 +59,6 @@ class _SecretBox(object):
         return ciphertext[:-(self.NONCE_SIZE + 1)]
 
 
-class _Blowfish(object):
-
-    MODE_CBC = 1
-
-    @classmethod
-    def new(cls, secret, mode, iv):
-        return cls()
-
-    def encrypt(self, plaintext):
-        return plaintext
-
-    def decrypt(self, encrypted):
-        return encrypted
-
-
 class _Monkey(object):
     # context-manager for replacing module names in the scope of a test.
 
