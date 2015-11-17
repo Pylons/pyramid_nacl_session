@@ -10,84 +10,53 @@ class EncryptingPickleSerializerTests(unittest.TestCase):
     def _makeOne(self, *args, **kw):
         return self._getTargetClass()(*args, **kw)
 
-    def test_ctor(self):
-        SECRET = 'SEEKRIT'
-        eps = self._makeOne(SECRET)
-        self.assertEqual(eps.secret, SECRET)
+    def test_ctor_w_invalid_key(self):
+        SECRET = 'SEEKRIT!'
+        self.assertRaises(ValueError, self._makeOne, SECRET)
 
-    def test_dumps_short(self):
+    def test_dumps(self):
         from pyramid.compat import pickle
         from .. import serializer as MUT
-        SECRET = 'SEEKRIT'
-        IV = 'ABCDEFGH'
-        APPSTRUCT = {}
+        SECRET = 'SEEKRIT!' * 4  # 32 bytes
+        NONCE = b'\x01' * 24
+        APPSTRUCT = {'foo': 'bar'}
         PICKLED = pickle.dumps(APPSTRUCT)
-        with _Monkey(MUT,
-                     _HAS_CRYPTO=True,
-                     Blowfish=_Blowfish,
-                     BLOCK_SIZE=8,
-                     IV=IV,
-                    ):
+        with _Monkey(MUT, SecretBox=_SecretBox, random=lambda size: NONCE):
             eps = self._makeOne(SECRET)
-            iv_encrypted = eps.dumps(APPSTRUCT)
-            iv, encrypted = iv_encrypted[:8], iv_encrypted[8:]
-            self.assertEqual(iv, IV)
-            self.assertTrue(encrypted.startswith(PICKLED))
-            self.assertEqual(len(encrypted) % 8, 0)
+            encrypted = eps.dumps(APPSTRUCT)
+            pickled, nonce = encrypted[:-25], encrypted[-24:]
+            self.assertEqual(pickled, PICKLED)
+            self.assertEqual(nonce, NONCE)
 
-    def test_dumps_longer(self):
+    def test_loads(self):
         from pyramid.compat import pickle
         from .. import serializer as MUT
-        SECRET = 'SEEKRIT'
-        IV = 'ABCDEFGH'
-        APPSTRUCT = {'foo': 'bar', 'baz': 1}
+        SECRET = 'SEEKRIT!' * 4  # 32 bytes
+        NONCE = b'\x01' * 24
+        APPSTRUCT = {'foo': 'bar'}
         PICKLED = pickle.dumps(APPSTRUCT)
-        with _Monkey(MUT,
-                     _HAS_CRYPTO=True,
-                     Blowfish=_Blowfish,
-                     BLOCK_SIZE=8,
-                     IV=IV,
-                    ):
+        CIPERTEXT = b'%s:%s' % (PICKLED, NONCE)
+        with _Monkey(MUT, SecretBox=_SecretBox):
             eps = self._makeOne(SECRET)
-            iv_encrypted = eps.dumps(APPSTRUCT)
-            iv, encrypted = iv_encrypted[:8], iv_encrypted[8:]
-            self.assertEqual(iv, IV)
-            self.assertTrue(encrypted.startswith(PICKLED))
-            self.assertEqual(len(encrypted) % 8, 0)
-
-    def test_loads_short(self):
-        from pyramid.compat import pickle
-        from .. import serializer as MUT
-        SECRET = 'SEEKRIT'
-        IV = 'ABCDEFGH'
-        APPSTRUCT = {}
-        PICKLED = pickle.dumps(APPSTRUCT)
-        PLEN = len(PICKLED) % 8
-        with _Monkey(MUT,
-                     _HAS_CRYPTO=True,
-                     Blowfish=_Blowfish,
-                     BLOCK_SIZE=8,
-                    ):
-            eps = self._makeOne(SECRET)
-            loaded = eps.loads(IV + PICKLED + 'x' * PLEN)
+            loaded = eps.loads(CIPERTEXT)
             self.assertEqual(loaded, APPSTRUCT)
 
-    def test_loads_longer(self):
-        from pyramid.compat import pickle
-        from .. import serializer as MUT
-        SECRET = 'SEEKRIT'
-        IV = 'ABCDEFGH'
-        APPSTRUCT = {'foo': 'bar', 'baz': 1}
-        PICKLED = pickle.dumps(APPSTRUCT)
-        PLEN = len(PICKLED) % 8
-        with _Monkey(MUT,
-                     _HAS_CRYPTO=True,
-                     Blowfish=_Blowfish,
-                     BLOCK_SIZE=8,
-                    ):
-            eps = self._makeOne(SECRET)
-            loaded = eps.loads(IV + PICKLED + 'x' * PLEN)
-            self.assertEqual(loaded, APPSTRUCT)
+
+class _SecretBox(object):
+
+    KEY_SIZE = 32
+    NONCE_SIZE = 24
+
+    def __init__(self, key):
+        assert len(key) == self.KEY_SIZE
+        self._key = key
+
+    def encrypt(self, plaintext, nonce):
+        assert len(nonce) == self.NONCE_SIZE
+        return b'%s:%s' % (plaintext, nonce)
+
+    def decrypt(self, ciphertext):
+        return ciphertext[:-(self.NONCE_SIZE + 1)]
 
 
 class _Blowfish(object):
