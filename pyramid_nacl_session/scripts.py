@@ -6,8 +6,11 @@ from nacl.secret import SecretBox
 from nacl.utils import random
 
 
-def generate_secret():
-    return binascii.hexlify(random(SecretBox.KEY_SIZE))
+def generate_secret(as_hex=True):
+    secret = random(SecretBox.KEY_SIZE)
+    if as_hex:
+        secret = binascii.hexlify(secret)
+    return secret
 
 
 PRINT_SECRET_DOC = """\
