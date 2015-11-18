@@ -21,12 +21,20 @@ class EncryptingPickleSerializerTests(unittest.TestCase):
         NONCE = b'\x01' * 24
         APPSTRUCT = {'foo': 'bar'}
         PICKLED = pickle.dumps(APPSTRUCT)
-        with _Monkey(MUT, SecretBox=_SecretBox, random=lambda size: NONCE):
+        _base64_called = []
+        def _base64_encode(what):
+            _base64_called.append(what)
+            return what
+        with _Monkey(MUT,
+                     SecretBox=_SecretBox,
+                     random=lambda size: NONCE,
+                     urlsafe_b64encode=_base64_encode):
             eps = self._makeOne(SECRET)
             encrypted = eps.dumps(APPSTRUCT)
             pickled, nonce = encrypted[:-25], encrypted[-24:]
             self.assertEqual(pickled, PICKLED)
             self.assertEqual(nonce, NONCE)
+            self.assertEqual(_base64_called, [encrypted])
 
     def test_loads(self):
         from pyramid.compat import pickle
@@ -36,10 +44,16 @@ class EncryptingPickleSerializerTests(unittest.TestCase):
         APPSTRUCT = {'foo': 'bar'}
         PICKLED = pickle.dumps(APPSTRUCT)
         CIPHERTEXT = PICKLED + b':' + NONCE
-        with _Monkey(MUT, SecretBox=_SecretBox):
+        _base64_called = []
+        def _base64_decode(what):
+            _base64_called.append(what)
+            return what
+        with _Monkey(MUT, SecretBox=_SecretBox,
+                     urlsafe_b64decode=_base64_decode):
             eps = self._makeOne(SECRET)
             loaded = eps.loads(CIPHERTEXT)
             self.assertEqual(loaded, APPSTRUCT)
+            self.assertEqual(_base64_called, [CIPHERTEXT])
 
 
 class _SecretBox(object):

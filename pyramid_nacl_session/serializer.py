@@ -1,3 +1,6 @@
+from base64 import urlsafe_b64decode
+from base64 import urlsafe_b64encode
+
 from nacl.secret import SecretBox
 from nacl.utils import random
 from pyramid.compat import pickle
@@ -27,7 +30,7 @@ class EncryptingPickleSerializer(object):
         :returns: the decrypted, unpickled session state, as passed as
                   ``session_state`` to :meth:`dumps`.
         """
-        payload = self.box.decrypt(encrypted_state)
+        payload = self.box.decrypt(urlsafe_b64decode(encrypted_state))
         return pickle.loads(payload)
 
     def dumps(self, session_state):
@@ -41,5 +44,5 @@ class EncryptingPickleSerializer(object):
         """
         pickled = pickle.dumps(session_state)
         nonce = random(SecretBox.NONCE_SIZE)
-        return self.box.encrypt(pickled, nonce)
+        return urlsafe_b64encode(self.box.encrypt(pickled, nonce))
 
