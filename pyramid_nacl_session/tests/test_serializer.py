@@ -35,10 +35,10 @@ class EncryptingPickleSerializerTests(unittest.TestCase):
         NONCE = b'\x01' * 24
         APPSTRUCT = {'foo': 'bar'}
         PICKLED = pickle.dumps(APPSTRUCT)
-        CIPERTEXT = b'%s:%s' % (PICKLED, NONCE)
+        CIPHERTEXT = PICKLED + b':' + NONCE
         with _Monkey(MUT, SecretBox=_SecretBox):
             eps = self._makeOne(SECRET)
-            loaded = eps.loads(CIPERTEXT)
+            loaded = eps.loads(CIPHERTEXT)
             self.assertEqual(loaded, APPSTRUCT)
 
 
@@ -53,7 +53,7 @@ class _SecretBox(object):
 
     def encrypt(self, plaintext, nonce):
         assert len(nonce) == self.NONCE_SIZE
-        return b'%s:%s' % (plaintext, nonce)
+        return plaintext + b':' + nonce
 
     def decrypt(self, ciphertext):
         return ciphertext[:-(self.NONCE_SIZE + 1)]
