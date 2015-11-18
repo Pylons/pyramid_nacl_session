@@ -7,20 +7,28 @@ from nacl.utils import random
 
 
 def generate_secret(as_hex=True):
+    """Generate a random, 32-byte secret.
+
+    :type as_hex: boolean
+    :param as_hex: If true, convert the secret to hex.
+
+    :rtype: bytes
+    :returns: the secret (perhaps converted to hex).
+    """
     secret = random(SecretBox.KEY_SIZE)
     if as_hex:
         secret = binascii.hexlify(secret)
     return secret
 
 
-PRINT_SECRET_DOC = """\
-Print a generated, random secret, to standard output.
-
-The secret is a 32-byte random string, encoded using 'binascii.hexlify'.
-"""
 def print_secret():  # pragma: NO COVER
+    """Print a generated, random secret, to standard output.
+
+    The secret is a 32-byte random string, encoded using
+    :func:`binascii.hexlify`.
+    """
     def _usage(message=None, rc=1):
-        print(PRINT_SECRET_DOC)
+        print(print_secret.__doc__)
         if message is not None:
             print(message)
         sys.exit(rc)
