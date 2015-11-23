@@ -12,7 +12,7 @@ setup(name='pyramid_nacl_session',
       version='0.2.dev0',
       description='Encrypted sessison cookie serializer ofr Pyramid',
       long_description='\n\n'.join([README, CHANGES]),
-      url='https://github.com/zeomega/pyramid_nacl_session',
+      url='https://github.com/Pylons/pyramid_nacl_session',
       license="BSD-derived (http://www.repoze.org/LICENSE.txt)",
       classifiers=[
         "Development Status :: 3 - Alpha",
