@@ -1,0 +1,2 @@
+Sphinx
+pylons_sphinx_theme
