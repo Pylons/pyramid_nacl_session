@@ -5,7 +5,7 @@
         :target: https://travis-ci.org/Pylons/pyramid_nacl_session
 
 .. image:: https://readthedocs.org/projects/pyramid_nacl_session/badge/?version=latest
-        :target: http://pyramid_nacl_session.readthedocs.org/en/latest/
+        :target: http://docs.pylonsproject.org/projects/pyramid-nacl-session/en/latest/
         :alt: Documentation Status
 
 This Pyramid add-on defines an encrypting, pickle-based cookie serializer,
