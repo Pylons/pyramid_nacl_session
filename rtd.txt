@@ -1,2 +1,1 @@
-Sphinx
-pylons_sphinx_theme
+-e .[docs]
