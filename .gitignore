@@ -3,5 +3,7 @@
 __pycache__/
 *.egg-info/
 .tox/
-.coverage
+nosetests-*.xml
+coverage*.xml
+.coverage*
 docs/_build/

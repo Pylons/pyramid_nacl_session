@@ -8,6 +8,8 @@ with open('README.rst') as f:
 with open('CHANGES.rst') as f:
     CHANGES = f.read()
 
+tests_require = []
+
 setup(name='pyramid_nacl_session',
       version='0.2.dev0',
       description='Encrypted sessison cookie serializer ofr Pyramid',
@@ -40,7 +42,18 @@ setup(name='pyramid_nacl_session',
         'pyramid>=1.5',
         'PyNaCl',
       ],
+      extras_require={
+          'testing': tests_require + [
+              'nose',
+              'coverage',
+          ],
+          'docs': [
+              'Sphinx',
+              'pylons-sphinx-themes',
+          ],
+      },
       test_suite='pyramid_nacl_session.tests',
+      tests_require=tests_require,
       entry_points = """\
       [console_scripts]
       print_secret = pyramid_nacl_session.scripts:print_secret
