@@ -11,7 +11,7 @@ with open('CHANGES.rst') as f:
 tests_require = []
 
 setup(name='pyramid_nacl_session',
-      version='0.2',
+      version='0.3.dev0',
       description='Encrypted sessison cookie serializer ofr Pyramid',
       long_description='\n\n'.join([README, CHANGES]),
       url='https://github.com/Pylons/pyramid_nacl_session',
