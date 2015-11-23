@@ -4,7 +4,7 @@ def _export(thing):
     Also, shuts pyflakes up about unused import.
     """
 
-from .serializer import EncryptingPickleSerializer
-_export(EncryptingPickleSerializer)
+from .serializer import EncryptedSerializer
+_export(EncryptedSerializer)
 from .scripts import generate_secret
 _export(generate_secret)
