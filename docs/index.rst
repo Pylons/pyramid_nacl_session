@@ -8,6 +8,7 @@ Contents:
 
    usage
    api
+   changes
 
 Indices and tables
 ==================
