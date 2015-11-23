@@ -1,11 +1,11 @@
 import unittest
 
 
-class EncryptingPickleSerializerTests(unittest.TestCase):
+class EncryptedSerializerTests(unittest.TestCase):
 
     def _getTargetClass(self):
-        from ..serializer import EncryptingPickleSerializer
-        return EncryptingPickleSerializer
+        from ..serializer import EncryptedSerializer
+        return EncryptedSerializer
 
     def _makeOne(self, *args, **kw):
         return self._getTargetClass()(*args, **kw)
@@ -20,7 +20,7 @@ class EncryptingPickleSerializerTests(unittest.TestCase):
         SECRET = 'SEEKRIT!' * 4  # 32 bytes
         NONCE = b'\x01' * 24
         APPSTRUCT = {'foo': 'bar'}
-        PICKLED = pickle.dumps(APPSTRUCT)
+        PICKLED = pickle.dumps(APPSTRUCT, pickle.HIGHEST_PROTOCOL)
         _base64_called = []
         def _base64_encode(what):
             _base64_called.append(what)
@@ -42,7 +42,7 @@ class EncryptingPickleSerializerTests(unittest.TestCase):
         SECRET = 'SEEKRIT!' * 4  # 32 bytes
         NONCE = b'\x01' * 24
         APPSTRUCT = {'foo': 'bar'}
-        PICKLED = pickle.dumps(APPSTRUCT)
+        PICKLED = pickle.dumps(APPSTRUCT, pickle.HIGHEST_PROTOCOL)
         CIPHERTEXT = PICKLED + b':' + NONCE
         _base64_called = []
         def _base64_decode(what):
