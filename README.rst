@@ -15,3 +15,7 @@ using ``PyNaCl`` [1] to generate the symmetric encryption for the cookie state.
 [1] http://pynacl.readthedocs.org/en/latest/secret/
 
 See:  ``docs/index.rst`` for the documentation.
+
+.. note::
+
+   Initial development of this library was sponsored by ZeOmega Inc.
