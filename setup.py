@@ -9,7 +9,7 @@ with open('CHANGES.rst') as f:
     CHANGES = f.read()
 
 setup(name='pyramid_nacl_session',
-      version='0.1',
+      version='0.2.dev0',
       description='Encrypted sessison cookie serializer ofr Pyramid',
       long_description='\n\n'.join([README, CHANGES]),
       url='https://github.com/zeomega/pyramid_nacl_session',
