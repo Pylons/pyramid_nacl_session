@@ -1,7 +1,7 @@
 Changelog
 =========
 
-0.2 (unreleased)
+0.2 (2015-11-23)
 ----------------
 
 - Split the ``EncryptingPickleSerializer`` into ``EncryptedSerializer``
