@@ -14,11 +14,13 @@ class TestEncryptedCookieSessionFactory(unittest.TestCase):
         config = testing.setUp()
         factory = self._makeOne()
         config.set_session_factory(factory)
+        state_found = []
         def begin_view(context, request):
+            state_found.append(request.session.copy())
             request.session['state'] = 1
             return 'begin'
         def end_view(context, request):
-            self.assertEqual(request.session, {'state': 1})
+            state_found.append(request.session.copy())
             return 'end'
         config.add_view(begin_view, name='begin', renderer='string')
         config.add_view(end_view, name='end', renderer='string')
@@ -28,3 +30,5 @@ class TestEncryptedCookieSessionFactory(unittest.TestCase):
         testapp.get('/begin')
         testapp.get('/end')
         self.assertTrue('session' in testapp.cookies)
+        self.assertEqual(state_found[0], {})
+        self.assertEqual(state_found[1], {'state': 1})
