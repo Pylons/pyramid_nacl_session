@@ -1,5 +1,6 @@
 from base64 import urlsafe_b64decode
 from base64 import urlsafe_b64encode
+import binascii
 
 from nacl.secret import SecretBox
 from nacl.utils import random
@@ -31,7 +32,7 @@ class EncryptedSerializer(object):
 
         self.serializer = serializer
 
-    def loads(self, encrypted_state):
+    def loads(self, bstruct):
         """Decrypt session state.
 
         :type encrypted_state: bytes
@@ -41,7 +42,13 @@ class EncryptedSerializer(object):
         :returns: the decrypted, unpickled session state, as passed as
                   ``session_state`` to :meth:`dumps`.
         """
-        payload = self.box.decrypt(urlsafe_b64decode(encrypted_state))
+        try:
+            b64padding = b'=' * (-len(bstruct) % 4)
+            fstruct = urlsafe_b64decode(bstruct + b64padding)
+        except (binascii.Error, TypeError) as e:
+            raise ValueError('Badly formed base64 data: %s' % e)
+
+        payload = self.box.decrypt(fstruct)
         return self.serializer.loads(payload)
 
     def dumps(self, session_state):
@@ -55,4 +62,5 @@ class EncryptedSerializer(object):
         """
         cstruct = self.serializer.dumps(session_state)
         nonce = random(SecretBox.NONCE_SIZE)
-        return urlsafe_b64encode(self.box.encrypt(cstruct, nonce))
+        fstruct = self.box.encrypt(cstruct, nonce)
+        return urlsafe_b64encode(fstruct).rstrip(b'=')

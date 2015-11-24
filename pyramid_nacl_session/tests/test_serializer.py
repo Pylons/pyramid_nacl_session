@@ -53,7 +53,7 @@ class EncryptedSerializerTests(unittest.TestCase):
             eps = self._makeOne(SECRET)
             loaded = eps.loads(CIPHERTEXT)
             self.assertEqual(loaded, APPSTRUCT)
-            self.assertEqual(_base64_called, [CIPHERTEXT])
+            self.assertEqual(_base64_called, [CIPHERTEXT + b'=='])
 
 
 class _SecretBox(object):
