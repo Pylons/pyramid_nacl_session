@@ -45,6 +45,26 @@ class EncryptedSerializerTests(unittest.TestCase):
         loaded = eps.loads(CIPHERTEXT)
         self.assertEqual(loaded, APPSTRUCT)
 
+    def test_loads_with_invalid_b64(self):
+        eps = self._makeOne(b'SEEKRIT!' * 4)
+        self.assertRaises(ValueError, eps.loads, b'not*b64*data')
+
+    def test_loads_with_tampered_content(self):
+        import base64
+        from pyramid.compat import pickle
+        from nacl.secret import SecretBox
+
+        secret = b'SEEKRIT!' * 4
+        appstruct = {'foo': 'bar'}
+        nonce = b'\x01' * 24
+        cstruct = pickle.dumps(appstruct, pickle.HIGHEST_PROTOCOL)
+        fstruct = SecretBox(secret).encrypt(cstruct, nonce)
+        fstruct = b'tamper' + fstruct
+        bstruct = base64.urlsafe_b64encode(fstruct).rstrip(b'=')
+
+        eps = self._makeOne(b'SEEKRIT!' * 4)
+        self.assertRaises(ValueError, eps.loads, bstruct)
+
 
 class _Monkey(object):
     # context-manager for replacing module names in the scope of a test.

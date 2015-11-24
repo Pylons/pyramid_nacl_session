@@ -2,6 +2,7 @@ from base64 import urlsafe_b64decode
 from base64 import urlsafe_b64encode
 import binascii
 
+from nacl.exceptions import CryptoError
 from nacl.secret import SecretBox
 from nacl.utils import random
 from pyramid.session import PickleSerializer
@@ -48,7 +49,10 @@ class EncryptedSerializer(object):
         except (binascii.Error, TypeError) as e:
             raise ValueError('Badly formed base64 data: %s' % e)
 
-        payload = self.box.decrypt(fstruct)
+        try:
+            payload = self.box.decrypt(fstruct)
+        except CryptoError as e:
+            raise ValueError('Possible tampering: %s' % e)
         return self.serializer.loads(payload)
 
     def dumps(self, session_state):
