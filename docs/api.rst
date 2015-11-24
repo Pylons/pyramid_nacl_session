@@ -1,15 +1,10 @@
 :mod:`pyramid_nacl_session` API Reference
 =========================================
 
-:mod:`pyramid_nacl_session.serializer`
---------------------------------------
+.. automodule:: pyramid_nacl_session
 
-.. automodule:: pyramid_nacl_session.serializer
-   :members:
+   .. autoclass:: EncryptedSerializer
 
-:mod:`pyramid_nacl_session.scripts`
---------------------------------------
+   .. autofunction:: EncryptedCookieSessionFactory
 
-.. automodule:: pyramid_nacl_session.scripts
-   :members:
-
+   .. autofunction:: generate_secret

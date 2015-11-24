@@ -20,11 +20,10 @@ Use the generated secret to configure a session factory:
 .. code-block:: python
 
    from pyramid.session import BaseCookieSessionFactory
-   from pyramid_nacl_session import EncryptedSerializer
+   from pyramid_nacl_session import EncryptedCookieSessionFactory
 
    def includeme(config):
-       serializer = EncryptedSerializer(SECRET)
-       factory = BaseCookieSessionFactory(serializer)  # other config ad lib.
+       factory = EncryptedCookieSessionFactory(SECRET)  # other config ad lib.
        config.set_session_factory(factory)
 
 Sharing the Secret Across Instances
@@ -53,12 +52,11 @@ construct and register a session factory:
 
    import binascii
    from pyramid.session import BaseCookieSessionFactory
-   from pyramid_nacl_session import EncryptedSerializer
+   from pyramid_nacl_session import EncryptedCookieSessionFactory
 
    def includeme(config):
        hex_secret = config.settings['yourapp.session_secret'].strip()
        secret = binascii.unhexlify(hex_secret)
-       serializer = EncryptedSerializer(secret)
-       factory = BaseCookieSessionFactory(serializer)  # other config ad lib.
+       factory = EncryptedCookieSessionFactory(serializer)  # other config ad lib.
        config.set_session_factory(factory)
 

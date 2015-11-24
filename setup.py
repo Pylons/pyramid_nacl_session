@@ -8,7 +8,7 @@ with open('README.rst') as f:
 with open('CHANGES.rst') as f:
     CHANGES = f.read()
 
-tests_require = []
+tests_require = ['WebTest']
 
 setup(name='pyramid_nacl_session',
       version='0.3.dev0',
