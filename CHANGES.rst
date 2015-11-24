@@ -4,8 +4,9 @@ Changelog
 0.3 (unreleased)
 ----------------
 
-- TBD
-
+- Add the ``EncryptedCookieSessionFactory`` as the primary API for using
+  an encrypted session.
+  See https://github.com/Pylons/pyramid_nacl_session/pull/6
 
 0.2 (2015-11-23)
 ----------------
