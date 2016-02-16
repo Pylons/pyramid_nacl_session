@@ -4,8 +4,7 @@ Changelog
 0.3 (unreleased)
 ----------------
 
-- TBD
-
+- Drop Python 3.2 support.
 
 0.2 (2015-11-23)
 ----------------
