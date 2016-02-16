@@ -6,5 +6,7 @@ def _export(thing):
 
 from .serializer import EncryptedSerializer
 _export(EncryptedSerializer)
+from .session import EncryptedCookieSessionFactory
+_export(EncryptedCookieSessionFactory)
 from .scripts import generate_secret
 _export(generate_secret)
