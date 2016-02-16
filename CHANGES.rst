@@ -4,6 +4,8 @@ Changelog
 0.3 (unreleased)
 ----------------
 
+- Drop Python 3.2 support.
+
 - Drop the trailing padding (``=``) from base64 content.
   See https://github.com/Pylons/pyramid_nacl_session/pull/7
 
