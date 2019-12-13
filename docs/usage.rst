@@ -75,7 +75,7 @@ parameters prefixed with ``session.`` in your Pyramid application's
    [app:myapp]
    .. other settings ..
    session.secret = 840aaafdc36f067fbad9baf006efc0f672b86ab0dcb6a3e43ecc1f9d760915e5
-   session.serialize = json
+   session.serializer = json
 
 If your ``.ini`` file has such settings, you can use
 :func:`pyramid_nacl_session.session_factory_from_settings` in your
