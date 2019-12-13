@@ -33,8 +33,6 @@ def session_factory_from_settings(settings):
                 elif option_name == 'serializer':
                     if v in serializers:
                         v = serializers[v]()
-                elif option_name == 'secret':
-                    v = unhexlify(v)
 
                 options[option_name] = v
 
