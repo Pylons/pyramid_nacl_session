@@ -1,12 +1,12 @@
-def _export(thing):
-    """ No-op; document that ``thing`` is an API.
+# -*- coding: utf-8 -*-
 
-    Also, shuts pyflakes up about unused import.
-    """
-
+# flake8: noqa
 from .serializer import EncryptedSerializer
-_export(EncryptedSerializer)
 from .session import EncryptedCookieSessionFactory
-_export(EncryptedCookieSessionFactory)
 from .scripts import generate_secret
-_export(generate_secret)
+from .utils import session_factory_from_settings
+
+
+def includeme(config):
+    session_factory = session_factory_from_settings(config.registry.settings)
+    config.set_session_factory(session_factory)

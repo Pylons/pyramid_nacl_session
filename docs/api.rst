@@ -8,3 +8,5 @@
    .. autofunction:: EncryptedCookieSessionFactory
 
    .. autofunction:: generate_secret
+
+   .. autofunction:: session_factory_from_settings

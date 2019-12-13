@@ -4,7 +4,9 @@ Changelog
 0.4 (unreleased)
 ----------------
 
-- TBD
+- Add session_factory_from_settings
+
+- Add includeme
 
 0.3 (2016-02-16)
 ----------------
