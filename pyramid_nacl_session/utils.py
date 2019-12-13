@@ -33,6 +33,9 @@ def session_factory_from_settings(settings):
                 elif option_name == 'serializer':
                     if v in serializers:
                         v = serializers[v]()
+                elif option_name == 'secret':
+                    if not isinstance(v, bytes):
+                        v = v.encode()
 
                 options[option_name] = v
 
