@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 
-from binascii import unhexlify
-
 from pyramid.session import JSONSerializer
 from pyramid.session import PickleSerializer
 
@@ -11,8 +9,11 @@ from .session import EncryptedCookieSessionFactory
 
 
 def session_factory_from_settings(settings):
-    """ Return a Pyramid session factory using PyNaCl session settings
-    supplied from a Paste configuration file"""
+    """
+    Return a Pyramid session factory using PyNaCl session settings
+    supplied from a Paste configuration file.
+    """
+
     prefixes = ('session.', 'pynacl.session.')
     options = {}
     bool_options = {'secure', 'httponly', 'set_on_exception'}
@@ -21,7 +22,7 @@ def session_factory_from_settings(settings):
         'pickle': PickleSerializer
     }
 
-    # Pull out any config args meant for PyNaCl session. if there are any
+    # Pull out any config args meant for PyNaCl session, if there are any.
     # pylint: disable=invalid-name
     for k, v in settings.items():
         for prefix in prefixes:
