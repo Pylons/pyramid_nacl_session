@@ -10,17 +10,17 @@ from .serializer import EncryptedSerializer
 
 # pylint: disable=too-many-arguments,invalid-name
 def EncryptedCookieSessionFactory(
-        secret,
-        cookie_name='session',
-        max_age=None,
-        path='/',
-        domain=None,
-        secure=False,
-        httponly=False,
-        timeout=1200,
-        reissue_time=0,
-        set_on_exception=True,
-        serializer=None,
+    secret,
+    cookie_name="session",
+    max_age=None,
+    path="/",
+    domain=None,
+    secure=False,
+    httponly=False,
+    timeout=1200,
+    reissue_time=0,
+    set_on_exception=True,
+    serializer=None,
 ):
     """
     Configure a :term:`session factory` which will provide encrypted
@@ -97,10 +97,7 @@ def EncryptedCookieSessionFactory(
     if serializer is None:
         serializer = PickleSerializer()
 
-    encrypted_serializer = EncryptedSerializer(
-        secret,
-        serializer=serializer,
-    )
+    encrypted_serializer = EncryptedSerializer(secret, serializer=serializer,)
 
     return BaseCookieSessionFactory(
         encrypted_serializer,

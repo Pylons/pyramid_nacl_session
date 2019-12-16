@@ -27,6 +27,7 @@ def print_secret():  # pragma: NO COVER
     The secret is a 32-byte random string, encoded using
     :func:`binascii.hexlify`.
     """
+
     def _usage(message=None, rc=1):
         print(print_secret.__doc__)
         if message is not None:
@@ -34,15 +35,15 @@ def print_secret():  # pragma: NO COVER
         sys.exit(rc)
 
     try:
-        opts, args = getopt.gnu_getopt(sys.argv[1:], '?h', ['help'])
+        opts, args = getopt.gnu_getopt(sys.argv[1:], "?h", ["help"])
     except getopt.GetoptError as e:
         _usage(str(e))
 
     if args:
-        _usage('No arguments allowed.')
+        _usage("No arguments allowed.")
 
     for k, v in opts:
-        if k in ('-?', '-h', '--help'):
+        if k in ("-?", "-h", "--help"):
             _usage(rc=2)
 
     print(generate_secret())

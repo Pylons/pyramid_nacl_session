@@ -3,10 +3,11 @@ import unittest
 
 class Test_generate_secret(unittest.TestCase):
 
-    RANDOM = b'\x01\x12\x23\x34\x45'
+    RANDOM = b"\x01\x12\x23\x34\x45"
 
     def _callFUT(self, *args, **kw):
         from ..scripts import generate_secret
+
         return generate_secret(*args, **kw)
 
     def test_implicit(self):
@@ -37,7 +38,6 @@ class Test_generate_secret(unittest.TestCase):
             secret = self._callFUT(as_hex=False)
 
         self.assertEqual(secret, self.RANDOM)
-
 
 
 class _Monkey(object):
