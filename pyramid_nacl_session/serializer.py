@@ -25,8 +25,9 @@ class EncryptedSerializer(object):
     def __init__(self, secret, serializer=None):
         if len(secret) != SecretBox.KEY_SIZE:
             raise ValueError(
-                "Secret should be a random bytes string of length %d"
-                % SecretBox.KEY_SIZE
+                "Secret should be a random bytes string of length {}".format(
+                    SecretBox.KEY_SIZE
+                )
             )
         self.box = SecretBox(secret)
 
@@ -49,12 +50,12 @@ class EncryptedSerializer(object):
             b64padding = b"=" * (-len(bstruct) % 4)
             fstruct = urlsafe_b64decode(bstruct + b64padding)
         except (binascii.Error, TypeError) as e:
-            raise ValueError("Badly formed base64 data: %s" % e)
+            raise ValueError("Badly formed base64 data: {}".format(e))
 
         try:
             payload = self.box.decrypt(fstruct)
         except CryptoError as e:
-            raise ValueError("Possible tampering: %s" % e)
+            raise ValueError("Possible tampering: {}".format(e))
         return self.serializer.loads(payload)
 
     def dumps(self, session_state):
