@@ -5,7 +5,7 @@ import webtest
 from pyramid import testing
 
 
-class SomeClass:
+class SomeClass(object):
     pass
 
 class TestEncryptedCookieSessionFactory(unittest.TestCase):
