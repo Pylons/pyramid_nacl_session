@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+from binascii import unhexlify
+
 from pyramid.session import JSONSerializer
 from pyramid.session import PickleSerializer
 
@@ -33,7 +35,7 @@ def session_factory_from_settings(settings):
                         v = serializers[v]()
                 elif option_name == "secret":
                     if not isinstance(v, bytes):
-                        v = v.encode()
+                        v = unhexlify(v)
 
                 options[option_name] = v
 
