@@ -1,7 +1,8 @@
 :mod:`pyramid_nacl_session`
 ===========================
 
-This Pyramid add-on defines an encrypting, pickle-based cookie serializer, using ``PyNaCl`` [1] to generate the symmetric encryption for the cookie state.
+This Pyramid add-on defines an encrypting, pickle-based cookie serializer, 
+using ``PyNaCl`` [1] to generate the symmetric encryption for the cookie state.
 
 [1] https://pynacl.readthedocs.io/en/latest/secret/
 
