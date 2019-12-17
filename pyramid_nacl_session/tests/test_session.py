@@ -56,14 +56,19 @@ class TestEncryptedCookieSessionFactory(unittest.TestCase):
         with self.assertRaises(TypeError):
             _not_serializable = _session_data.copy()
             _not_serializable['k5'] = SomeClass
-            self._build_cookie({'session.serializer': 'json'},
-                              _not_serializable)
+            self._build_cookie(
+                {'session.serializer': 'json'}, _not_serializable
+            )
 
         _pickle_serializable = _session_data.copy()
         _pickle_serializable['k5'] = SomeClass()
         _pickle_serializable['k6'] = SomeClass
-        self.assertTrue(self._build_cookie({'session.serializer': 'pickle'},
-                                          _pickle_serializable))
+
+        self.assertTrue(
+            self._build_cookie(
+                {'session.serializer': 'pickle'}, _pickle_serializable
+            )
+        )
 
     def _build_cookie(self, kw, session_data=None):
         config = testing.setUp()
