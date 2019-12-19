@@ -88,6 +88,26 @@ class TestEncryptedCookieSessionFactory(unittest.TestCase):
         resp = testapp.get('/test')
         return resp.headers.get('set-cookie')
 
+    def test_include_me(self):
+        from pyramid.config import Configurator
+        from pyramid.registry import Registry
+        from pyramid.interfaces import ISessionFactory
+        from pyramid_nacl_session import includeme
+
+        settings = {
+            'session.secret': self.default_secret
+        }
+        reg = Registry()
+        config = Configurator(reg)
+        config.add_settings(settings)
+        config.include(includeme)
+        config.commit()
+        factory = self._makeOne()
+        self.assertIs(
+            type(config.registry.getUtility(ISessionFactory)),
+            type(factory)
+        )
+
     def test_it(self):
         config = testing.setUp()
         factory = self._makeOne()
