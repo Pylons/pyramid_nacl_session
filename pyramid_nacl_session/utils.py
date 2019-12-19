@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 from binascii import unhexlify
 
 from pyramid.session import JSONSerializer
@@ -22,7 +20,6 @@ def session_factory_from_settings(settings):
     serializers = {"json": JSONSerializer, "pickle": PickleSerializer}
 
     # Pull out any config args meant for PyNaCl session, if there are any.
-    # pylint: disable=invalid-name
     for k, v in settings.items():
         for prefix in prefixes:
             if k.startswith(prefix):

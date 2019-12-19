@@ -1,6 +1,3 @@
-# -*- coding: utf-8 -*-
-
-# flake8: noqa
 from .serializer import EncryptedSerializer
 from .session import EncryptedCookieSessionFactory
 from .scripts import generate_secret

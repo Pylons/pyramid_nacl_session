@@ -1,7 +1,3 @@
-# -*- coding: utf-8 -*-
-
-__version__ = '0.4.dev2'
-
 from setuptools import find_packages
 from setuptools import setup
 
@@ -15,7 +11,7 @@ with open('CHANGES.rst') as f:
 tests_require = ['WebTest']
 
 setup(name='pyramid_nacl_session',
-      version=__version__,
+      version='0.4',
       description='Encrypted sessison cookie serializer ofr Pyramid',
       long_description='\n\n'.join([README, CHANGES]),
       url='https://github.com/Pylons/pyramid_nacl_session',
