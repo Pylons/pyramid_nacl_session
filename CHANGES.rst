@@ -1,8 +1,8 @@
 Changelog
 =========
 
-0.4 (unreleased)
-----------------
+1.0.0 (unreleased)
+------------------
 
 - Add ``session_factory_from_settings`` and ``includeme``.
   See https://github.com/Pylons/pyramid_nacl_session/pull/11
