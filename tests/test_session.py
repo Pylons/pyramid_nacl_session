@@ -10,13 +10,13 @@ class TestEncryptedCookieSessionFactory(unittest.TestCase):
     default_secret = b"seekrit!" * 4  # 32 bytes
 
     def _makeOne(self, **kw):
-        from ..session import EncryptedCookieSessionFactory
+        from pyramid_nacl_session.session import EncryptedCookieSessionFactory
 
         kw.setdefault("secret", self.default_secret)
         return EncryptedCookieSessionFactory(**kw)
 
     def _makeOneFromSettings(self, **kw):
-        from ..utils import session_factory_from_settings
+        from pyramid_nacl_session.utils import session_factory_from_settings
 
         kw.setdefault("session.secret", self.default_secret)
         return session_factory_from_settings(kw)

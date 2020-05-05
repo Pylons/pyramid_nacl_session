@@ -3,7 +3,7 @@ import unittest
 
 class EncryptedSerializerTests(unittest.TestCase):
     def _getTargetClass(self):
-        from ..serializer import EncryptedSerializer
+        from pyramid_nacl_session.serializer import EncryptedSerializer
 
         return EncryptedSerializer
 
@@ -24,7 +24,7 @@ class EncryptedSerializerTests(unittest.TestCase):
         self.assertRaises(ValueError, self._makeOne, SECRET)
 
     def test_dumps(self):
-        from .. import serializer as MUT
+        from pyramid_nacl_session import serializer as MUT
 
         SECRET = b"SEEKRIT!" * 4  # 32 bytes
         NONCE = b"\x01" * 24

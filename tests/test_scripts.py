@@ -6,13 +6,13 @@ class Test_generate_secret(unittest.TestCase):
     RANDOM = b"\x01\x12\x23\x34\x45"
 
     def _callFUT(self, *args, **kw):
-        from ..scripts import generate_secret
+        from pyramid_nacl_session.scripts import generate_secret
 
         return generate_secret(*args, **kw)
 
     def test_implicit(self):
         from binascii import hexlify
-        from .. import scripts as MUT
+        from pyramid_nacl_session import scripts as MUT
 
         class _SecretBox(object):
             KEY_SIZE = 32
@@ -26,7 +26,7 @@ class Test_generate_secret(unittest.TestCase):
         self.assertEqual(secret, hexlify(self.RANDOM))
 
     def test_explicit(self):
-        from .. import scripts as MUT
+        from pyramid_nacl_session import scripts as MUT
 
         class _SecretBox(object):
             KEY_SIZE = 32
