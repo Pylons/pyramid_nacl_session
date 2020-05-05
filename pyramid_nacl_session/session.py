@@ -5,11 +5,12 @@ from pyramid.session import (
 
 from .serializer import EncryptedSerializer
 
+
 def EncryptedCookieSessionFactory(
     secret,
-    cookie_name='session',
+    cookie_name="session",
     max_age=None,
-    path='/',
+    path="/",
     domain=None,
     secure=False,
     httponly=False,
@@ -93,10 +94,7 @@ def EncryptedCookieSessionFactory(
     if serializer is None:
         serializer = PickleSerializer()
 
-    encrypted_serializer = EncryptedSerializer(
-        secret,
-        serializer=serializer,
-    )
+    encrypted_serializer = EncryptedSerializer(secret, serializer=serializer)
 
     return BaseCookieSessionFactory(
         encrypted_serializer,

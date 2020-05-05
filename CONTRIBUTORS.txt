@@ -106,3 +106,5 @@ Contributors
 - Tres Seaver, 2015/11/16
 
 - Michael Merickel, 2015/11/23
+
+- Julien Cigar, 2019/12/13

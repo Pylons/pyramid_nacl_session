@@ -21,11 +21,14 @@ class EncryptedSerializer(object):
         should be raised for malformed inputs. Default: ``None``, which will
         use :class:`pyramid.session.PickleSerializer`.
     """
+
     def __init__(self, secret, serializer=None):
         if len(secret) != SecretBox.KEY_SIZE:
             raise ValueError(
-                "Secret should be a random bytes string of length %d" %
-                SecretBox.KEY_SIZE)
+                "Secret should be a random bytes string of length {}".format(
+                    SecretBox.KEY_SIZE
+                )
+            )
         self.box = SecretBox(secret)
 
         if serializer is None:
@@ -44,15 +47,15 @@ class EncryptedSerializer(object):
                   ``session_state`` to :meth:`dumps`.
         """
         try:
-            b64padding = b'=' * (-len(bstruct) % 4)
+            b64padding = b"=" * (-len(bstruct) % 4)
             fstruct = urlsafe_b64decode(bstruct + b64padding)
         except (binascii.Error, TypeError) as e:
-            raise ValueError('Badly formed base64 data: %s' % e)
+            raise ValueError("Badly formed base64 data: {}".format(e))
 
         try:
             payload = self.box.decrypt(fstruct)
         except CryptoError as e:
-            raise ValueError('Possible tampering: %s' % e)
+            raise ValueError("Possible tampering: {}".format(e))
         return self.serializer.loads(payload)
 
     def dumps(self, session_state):
@@ -67,4 +70,4 @@ class EncryptedSerializer(object):
         cstruct = self.serializer.dumps(session_state)
         nonce = random(SecretBox.NONCE_SIZE)
         fstruct = self.box.encrypt(cstruct, nonce)
-        return urlsafe_b64encode(fstruct).rstrip(b'=')
+        return urlsafe_b64encode(fstruct).rstrip(b"=")

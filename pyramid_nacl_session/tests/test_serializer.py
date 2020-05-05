@@ -2,9 +2,9 @@ import unittest
 
 
 class EncryptedSerializerTests(unittest.TestCase):
-
     def _getTargetClass(self):
         from ..serializer import EncryptedSerializer
+
         return EncryptedSerializer
 
     def _makeOne(self, *args, **kw):
@@ -17,17 +17,18 @@ class EncryptedSerializerTests(unittest.TestCase):
 
         cstruct = pickle.dumps(value, pickle.HIGHEST_PROTOCOL)
         fstruct = SecretBox(secret).encrypt(cstruct, nonce)
-        return base64.urlsafe_b64encode(fstruct).rstrip(b'=')
+        return base64.urlsafe_b64encode(fstruct).rstrip(b"=")
 
     def test_ctor_w_invalid_key(self):
-        SECRET = b'SEEKRIT!'
+        SECRET = b"SEEKRIT!"
         self.assertRaises(ValueError, self._makeOne, SECRET)
 
     def test_dumps(self):
         from .. import serializer as MUT
-        SECRET = b'SEEKRIT!' * 4  # 32 bytes
-        NONCE = b'\x01' * 24
-        APPSTRUCT = {'foo': 'bar'}
+
+        SECRET = b"SEEKRIT!" * 4  # 32 bytes
+        NONCE = b"\x01" * 24
+        APPSTRUCT = {"foo": "bar"}
         expected = self._serialize(APPSTRUCT, SECRET, NONCE)
 
         eps = self._makeOne(SECRET)
@@ -36,9 +37,9 @@ class EncryptedSerializerTests(unittest.TestCase):
         self.assertEqual(expected, encrypted)
 
     def test_loads(self):
-        SECRET = b'SEEKRIT!' * 4  # 32 bytes
-        NONCE = b'\x01' * 24
-        APPSTRUCT = {'foo': 'bar'}
+        SECRET = b"SEEKRIT!" * 4  # 32 bytes
+        NONCE = b"\x01" * 24
+        APPSTRUCT = {"foo": "bar"}
         CIPHERTEXT = self._serialize(APPSTRUCT, SECRET, NONCE)
 
         eps = self._makeOne(SECRET)
@@ -46,23 +47,23 @@ class EncryptedSerializerTests(unittest.TestCase):
         self.assertEqual(loaded, APPSTRUCT)
 
     def test_loads_with_invalid_b64(self):
-        eps = self._makeOne(b'SEEKRIT!' * 4)
-        self.assertRaises(ValueError, eps.loads, b'not*b64*data')
+        eps = self._makeOne(b"SEEKRIT!" * 4)
+        self.assertRaises(ValueError, eps.loads, b"not*b64*data")
 
     def test_loads_with_tampered_content(self):
         import base64
         from pyramid.compat import pickle
         from nacl.secret import SecretBox
 
-        secret = b'SEEKRIT!' * 4
-        appstruct = {'foo': 'bar'}
-        nonce = b'\x01' * 24
+        secret = b"SEEKRIT!" * 4
+        appstruct = {"foo": "bar"}
+        nonce = b"\x01" * 24
         cstruct = pickle.dumps(appstruct, pickle.HIGHEST_PROTOCOL)
         fstruct = SecretBox(secret).encrypt(cstruct, nonce)
-        fstruct = b'tamper' + fstruct
-        bstruct = base64.urlsafe_b64encode(fstruct).rstrip(b'=')
+        fstruct = b"tamper" + fstruct
+        bstruct = base64.urlsafe_b64encode(fstruct).rstrip(b"=")
 
-        eps = self._makeOne(b'SEEKRIT!' * 4)
+        eps = self._makeOne(b"SEEKRIT!" * 4)
         self.assertRaises(ValueError, eps.loads, bstruct)
 
 
