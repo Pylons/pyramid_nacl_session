@@ -3,8 +3,13 @@ from .session import EncryptedCookieSessionFactory
 from .scripts import generate_secret
 from .utils import session_factory_from_settings
 
-__all__ = ['EncryptedSerializer', 'EncryptedCookieSessionFactory',
-           'generate_secret', 'session_factory_from_settings', 'includeme']
+__all__ = [
+    "EncryptedSerializer",
+    "EncryptedCookieSessionFactory",
+    "generate_secret",
+    "session_factory_from_settings",
+    "includeme",
+]
 
 
 def includeme(config):

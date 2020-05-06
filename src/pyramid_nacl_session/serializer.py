@@ -51,7 +51,6 @@ class EncryptedSerializer(object):
             fstruct = urlsafe_b64decode(bstruct + b64padding)
         except (binascii.Error, TypeError) as e:
             raise ValueError("Badly formed base64 data: {}".format(e))
-
         try:
             payload = self.box.decrypt(fstruct)
         except CryptoError as e:

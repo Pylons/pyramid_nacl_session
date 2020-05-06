@@ -1,9 +1,9 @@
-*.pyc
-*.pyo
-__pycache__/
 *.egg-info/
+*.pyc
+env*/
+.coverage
+.coverage.*
 .tox/
-nosetests-*.xml
-coverage*.xml
-.coverage*
-docs/_build/
+dist/
+build/
+coverage.xml

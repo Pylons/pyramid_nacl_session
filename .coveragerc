@@ -1,0 +1,15 @@
+[run]
+parallel = true
+source =
+    pyramid_nacl_session
+
+[paths]
+source =
+    src/pyramid_nacl_session
+    */src/pyramid_nacl_session
+    */site-packages/pyramid_nacl_session
+
+[report]
+show_missing = true
+precision = 2
+

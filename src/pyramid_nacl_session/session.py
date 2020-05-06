@@ -94,7 +94,7 @@ def EncryptedCookieSessionFactory(
     if serializer is None:
         serializer = PickleSerializer()
 
-    encrypted_serializer = EncryptedSerializer(secret, serializer=serializer)
+    encrypted_serializer = EncryptedSerializer(secret, serializer=serializer,)
 
     return BaseCookieSessionFactory(
         encrypted_serializer,
