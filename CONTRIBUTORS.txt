@@ -47,7 +47,7 @@ License Terms
 -------------
 
 Code committed to the Repoze Project source repository (Committed Code) must
-be governed by the Repoze Public License (http://repoze.org/LICENSE.txt, aka
+be governed by the Repoze Public License (LICENSE.txt, aka
 "the RPL") or another license acceptable to Agendaless Consulting.  Until
 Agendaless Consulting declares in writing an acceptable license other than
 the RPL, only the RPL shall be used.  A list of exceptions is detailed within
@@ -94,7 +94,7 @@ List of Contributors
 ====================
 
 The below-signed are contributors to a code repository that is part of the
-project named "repoze.tm2".
+project named "pyramid_nacl_session".
 
 Each below-signed contributor has read, understand and agrees to the terms
 above in the section within this document entitled "Repoze Project Contributor
@@ -110,3 +110,5 @@ Contributors
 - Julien Cigar, 2019/12/13
 
 - Bert JW Regeer, 2020/05/04
+
+- Nathan Merritt, 2020/06/16
