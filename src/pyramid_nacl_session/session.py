@@ -18,7 +18,7 @@ def EncryptedCookieSessionFactory(
     reissue_time=0,
     set_on_exception=True,
     serializer=None,
-    samesite='Lax',
+    samesite="Lax",
 ):
     """
     Configure a :term:`session factory` which will provide encrypted
