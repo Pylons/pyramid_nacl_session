@@ -18,6 +18,7 @@ def EncryptedCookieSessionFactory(
     reissue_time=0,
     set_on_exception=True,
     serializer=None,
+    samesite="Lax",
 ):
     """
     Configure a :term:`session factory` which will provide encrypted
@@ -57,6 +58,10 @@ def EncryptedCookieSessionFactory(
     ``httponly``
       Hide the cookie from Javascript by setting the 'HttpOnly' flag of the
       session cookie. Default: ``False``.
+
+    ``samesite``
+      The 'samesite' option of the session cookie. Set the value to ``None``
+      to turn off the samesite option.  Default: ``'Lax'``.
 
     ``timeout``
       A number of seconds of inactivity before a session times out. If
@@ -107,4 +112,5 @@ def EncryptedCookieSessionFactory(
         timeout=timeout,
         reissue_time=reissue_time,
         set_on_exception=set_on_exception,
+        samesite=samesite,
     )

@@ -31,6 +31,7 @@ class TestEncryptedCookieSessionFactory(unittest.TestCase):
             {"pynacl.session.secure": "true", "session.httponly": "true"}
         )
         test_cookie_name = self._build_cookie({"session.cookie_name": "_test_"})
+        test_samesite = self._build_cookie({"session.samesite": "Strict"})
 
         _session_data = {
             "k1": "v1",
@@ -47,6 +48,8 @@ class TestEncryptedCookieSessionFactory(unittest.TestCase):
         self.assertIn("HttpOnly;", test_http_secure)
         self.assertIn("secure;", test_http_secure)
         self.assertIn("_test_=", test_cookie_name)
+        self.assertIn("SameSite=Lax", test_cookie_name)
+        self.assertIn("SameSite=Strict", test_samesite)
 
         with self.assertRaises(ValueError):
             self._build_cookie({"session.secret": "invalid"})
