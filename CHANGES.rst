@@ -7,6 +7,9 @@ Changelog
 - Add ``session_factory_from_settings`` and ``includeme``.
   See https://github.com/Pylons/pyramid_nacl_session/pull/11
 
+- Support the ``samesite`` option and default to ``Lax``.
+  See https://github.com/Pylons/pyramid_nacl_session/pull/14
+
 - Drop Python 2.6, 3.3, and 3.4 support.
 
 - Add Python 3.6, 3.7 and 3.8 support.
