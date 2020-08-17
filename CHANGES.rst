@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.0.0 (unreleased)
+1.0.0 (2020-08-17)
 ------------------
 
 - Add ``session_factory_from_settings`` and ``includeme``.
