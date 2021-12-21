@@ -5,7 +5,7 @@ import binascii
 from nacl.exceptions import CryptoError
 from nacl.secret import SecretBox
 from nacl.utils import random
-from pyramid.session import PickleSerializer
+from pyramid.session import JSONSerializer
 
 
 class EncryptedSerializer(object):
@@ -19,7 +19,7 @@ class EncryptedSerializer(object):
         method should accept bytes and return a Python object. The ``dumps``
         method should accept a Python object and return bytes. A ``ValueError``
         should be raised for malformed inputs. Default: ``None``, which will
-        use :class:`pyramid.session.PickleSerializer`.
+        use :class:`pyramid.session.JSONSerializer`.
     """
 
     def __init__(self, secret, serializer=None):
@@ -32,7 +32,7 @@ class EncryptedSerializer(object):
         self.box = SecretBox(secret)
 
         if serializer is None:
-            serializer = PickleSerializer()
+            serializer = JSONSerializer()
 
         self.serializer = serializer
 
